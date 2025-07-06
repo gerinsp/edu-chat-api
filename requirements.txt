@@ -1,0 +1,9 @@
+langchain
+chromadb
+openai
+sqlalchemy
+python-dotenv
+fastapi
+uvicorn
+langchain_community
+sentence-transformers
