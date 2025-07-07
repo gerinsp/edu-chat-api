@@ -1,31 +1,29 @@
 from sqlalchemy import create_engine, text
-import os
-from dotenv import load_dotenv
 from datetime import datetime
 import uuid
+from app.config.config import DATABASE_URL
 
-load_dotenv()
-
-DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL)
 
 def get_students_by_parent(parent_id):
+    print(parent_id)
     with engine.connect() as conn:
         result = conn.execute(text("""
             SELECT id, name FROM users WHERE parent_id = :parent_id
         """), {"parent_id": parent_id})
-        return [dict(row) for row in result]
+        return [row._mapping for row in result]
 
 def get_student_progress(student_id):
     with engine.connect() as conn:
         result = conn.execute(text("""
-            SELECT q.subject_id, qr.total_questions, qr.correct_answers, qr.score, qr.submitted_at
+            SELECT s.name as subject_name, qr.total_questions, qr.correct_answers, qr.score, qr.submitted_at
             FROM quiz_results qr
             JOIN question_packages q ON q.id = qr.package_id
+            JOIN subjects s ON s.id = q.subject_id
             WHERE qr.student_id = :student_id
             ORDER BY qr.submitted_at DESC
         """), {"student_id": student_id})
-        return [dict(row) for row in result]
+        return [row._mapping for row in result]
 
 def get_students_by_teacher(teacher_id, grade=None):
     query = text("""
@@ -36,7 +34,7 @@ def get_students_by_teacher(teacher_id, grade=None):
     """)
     with engine.connect() as conn:
         result = conn.execute(query, {"teacher_id": teacher_id, "grade": grade})
-        return [dict(row) for row in result]
+        return [row._mapping for row in result]
 
 def log_chatbot_interaction(student_id: str, message_from: str, message: str):
     with engine.begin() as conn:

@@ -9,13 +9,10 @@ class ChatInput(BaseModel):
     role: str
     question: str
 
+
 @app.post("/chat")
 async def chat(input_data: ChatInput):
-    print("✅ Input:", input_data.dict())
-
     result = langgraph_app.invoke(input_data.dict())
+    return {"answer": result.get("answer", "Tidak ada jawaban ditemukan.")}
 
-    print("📥 Output dari langgraph:", result)
-
-    return {"answer": result.get("answer", "❌ Tidak ada jawaban ditemukan.")}
 
