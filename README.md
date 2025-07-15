@@ -1,10 +1,11 @@
 ## 🚀 Langkah Setup
 Berikut langkah - langkahnya:
-1. Buat virtual environment (disini saya menggunakan python v3.12)
+1. Open Projek kemudian buka terminal di vs code
+2. Buat virtual environment (disini saya menggunakan python v3.12)
    ```shell
    python -m venv venv
    ```
-2. Masuk ke environment
+3. Masuk ke environment
    - untuk windows
       ```shell
       venv\Scripts\activate
@@ -13,17 +14,17 @@ Berikut langkah - langkahnya:
       ```shell
       source venv/bin/activate
       ```
-3. Instalasi requirements
+4. Instalasi requirements
    ```shell
    pip install -r requirements.txt
    ```
-4. Rename .env.example menjadi .env lalu sesuaikan konfigurasinya
-5. Export database db_teman_belajar_backup.sql atau bisa juga menggunakan db yang sudah ada
+5. Rename .env.example menjadi .env lalu sesuaikan konfigurasinya
+6. Export database db_teman_belajar_backup.sql atau bisa juga menggunakan db yang sudah ada
    ```shell
    psql -U username -d db_teman_belajar < db_teman_belajar_backup.sql
    ```
-6. Run projek
+7. Run projek
    ```shell
     uvicorn api.main:app --reload
    ```
-7. Kemudian bisa akses endpoint <code>/health</code> untuk cek apakah projek nya sudah running
+8. Kemudian bisa akses endpoint <code>/health</code> untuk cek apakah projek nya sudah running
